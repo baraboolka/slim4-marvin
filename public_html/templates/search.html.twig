@@ -1,0 +1,45 @@
+{% extends "index.html.twig" %}
+
+{% block content %}
+	<h1>gallery, block what extends index</h1>
+    
+    <h1>Search</h1>
+
+    <p>{{ message }}</p>
+
+    <form action="/search" method="get">
+        <input name="word" type="text">
+        <input value="search" type="submit">
+    </form>
+
+    {% if pages %}
+        <h3>Pages</h3>
+
+        <ul>
+
+            {% for page in pages %}
+
+            <li><a href="/page/{{ page.alias }}">{{ page.title }}</a></li>   
+
+            {% endfor %}
+
+        </ul>
+
+    {% endif %}
+
+    {% if galleries %}
+        <h3>Galleries</h3>
+
+        <ul>
+
+            {% for gallery in galleries %}
+
+            <li><a href="/gallery/{{ gallery.alias }}">{{ gallery.title }}</a></li>   
+
+            {% endfor %}
+
+        </ul>
+
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% macro parentTree(pageTree) %}
+
+    {% for branch in pageTree %}
+	
+		<li>
+
+            <a href="/page/{{ branch.alias }}">{{ branch.title }} </a>
+			
+		
+            {% if branch.sub %}
+                
+            <ul>
+
+                {{ _self.parentTree(branch.sub) }}	
+
+            </ul>    
+                
+            {% endif %}
+
+        </li>
+
+    {% endfor %}
+	
+{% endmacro %}

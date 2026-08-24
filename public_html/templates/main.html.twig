@@ -1,0 +1,48 @@
+{% extends "index.html.twig" %}
+
+{% block content %}
+	[main, block what extends index]
+
+	<h1>Main</h1>
+	<p>Hello. This is a simple CRUD system, based on Slim 4</p>
+
+	
+	<h2>Resources and references</h2>
+	<ul>
+		<li>Slim Framework (php | base, v:4.*): <a href="https://github.com/slimphp/Slim" target="_blank">https://github.com/slimphp/Slim</a></li>
+		<li>Slim PSR-7 (php | PSR-7 implementation, v:^0.6.0): <a href="https://github.com/slimphp/Slim-Psr7" target="_blank">https://github.com/slimphp/Slim-Psr7</a></li>
+		<li>Slim DI (php | dependency injection container, v:^6.0): <a href="https://github.com/PHP-DI/PHP-DI" target="_blank">https://github.com/PHP-DI/PHP-DI</a></li> 
+		<li>Slim Framework Twig View (php | view-templating, v:^3.0): <a href="https://github.com/slimphp/Twig-View" target="_blank">https://github.com/slimphp/Twig-View</a></li>
+		<li>Slim Framework CSRF Protection (php | addon, v:^1.1): <a href="https://github.com/slimphp/Slim-Csrf" target="_blank">https://github.com/slimphp/Slim-Csrf</a></li>
+		<li>PHPMailer (php | base, v:7.1.1): <a href="https://github.com/PHPMailer/PHPMailer" target="_blank">https://github.com/PHPMailer/PHPMailer</a></li>
+		<li>Google icons (html, css | beauty): <a href="https://fonts.google.com/icons" target="_blank">https://fonts.google.com/icons</a></li>
+		<li>Jquery (js | full, quality of life, v:3.7.1): <a href="https://jquery.com" target="_blank">https://jquery.com</a></li>
+		<li>Summernote (js | lite, wysiwyg editor, v:0.9.0): <a href="https://github.com/summernote/summernote" target="_blank">https://github.com/summernote/summernote</a></li>
+		<li>Swiper (js | slider carousel for images, v:11.2.5): <a href="https://swiperjs.com/" target="_blank">https://swiperjs.com/</a></li>
+		<li>Fancybox (js | displaying images, v:3.5.7): <a href="https://github.com/fancyapps/fancybox" target="_blank">https://github.com/fancyapps/fancybox</a></li>
+		<li>Prism (js | syntax highlighter, v:1.30.0) + plugins: Show-language, Normalize-whitespace, Toolbar, Tomorrow Night theme: <a href="https://prismjs.com" target="_blank">https://prismjs.com</a></li>
+	</ul>
+
+	<h2>System requirements</h2>
+	<ul>
+		<li>Web server with URL rewriting</li>
+		<li>PHP 7.4 or newer</li>
+		<li>Mysql 5.6 or newer</li>
+		<li title="yes">Personal сomputer</li>
+	</ul>	
+
+	<h2>Database</h2>
+	<ul>
+    	<li>The database-dump is in the root directory</li>
+    	<li>Filename: slim4-marvin-db.sql</li>
+    	<li>Don't forget to import the database and change the config file: config.php</li>
+	</ul>
+
+	<h2>Default login/password for admin panel</h2>
+	<ul>
+		<li>Path: <a href="/login">/login</a></li>
+		<li>Login: admin</li>
+		<li>Password: password</li>
+	</ul>
+
+{% endblock %}

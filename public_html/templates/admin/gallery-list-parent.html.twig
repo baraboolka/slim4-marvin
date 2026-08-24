@@ -1,0 +1,41 @@
+{% macro parentTree(tree) %}
+
+	{% if tree %}
+	
+		{% for branch in tree %}
+
+            <div class="list-row">  
+                <div class="list-col list-level"><img src="/images/list-level-3x.png" alt=""></div>
+                <div class="list-col list-title">
+                    <h3>
+                        <a href="/admin/gallery/edit/{{ branch.id }}" title="[id: {{ branch.id }}]" alt="[id: {{ branch.id }}]">
+                        {{ branch.title }}
+                        </a>
+                    </h3>
+                    <h4>/{{ branch.alias }}</h4>
+                </div>
+                <div class="list-col list-delete">
+                    <a href="/admin/gallery/delete/{{ branch.id }}" onclick="if(!confirm('delete?')) return false;">
+                        <img src="/images/list-delete-3x.png" alt="">
+                    </a>             
+                </div>
+
+                {% if branch.sub %}
+                            
+                    {{ _self.parentTree(branch.sub) }}	
+                
+                {% endif %}
+
+			</div>
+            
+		{% endfor %}
+
+	{% else %}
+
+        <div class="list-row">
+			The list is empty
+		</div>
+        
+	{% endif %}
+	
+{% endmacro %}

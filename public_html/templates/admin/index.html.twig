@@ -1,0 +1,219 @@
+{% include '/admin/header.html.twig' %}
+<div id="main">
+    <div id="sidebar">
+        <div id="sidebar-container">
+            <h3>[admin, sidebar]</h3>
+            <ul>
+                <li><a href="/admin/page">Pages</a></li>            
+                <li><a href="/admin/user">Users</a></li>
+                <li><a href="/admin/gallery">Galleries</a></li>
+            </ul>
+        </div><!-- sidebar-container -->
+    </div><!-- sidebar -->
+
+    <div id="content">
+        <div id="content-container">
+            <h3>[admin, content]</h3>
+            {% block content %}
+                <!-- content here -->
+            {% endblock %}
+        </div><!-- content-container -->
+    </div><!-- content -->
+
+    <div id="file-manager">
+        <div id="file-manager-container">
+            <!-- place for the file manager -->
+        </div>
+    </div>
+
+    <script>
+        function showFileManager(currentDirectory){
+
+            //console.log(currentDirectory);
+            //console.log(encodeURIComponent(currentDirectory));
+
+            let xhr = new XMLHttpRequest();
+
+            xhr.open("GET", "/admin/file/browse" + encodeURIComponent(currentDirectory), true);
+
+            xhr.onload = function(){
+                if( xhr.status >= 200 && xhr.status < 300 ){
+                    let data = xhr.responseText;
+                    let fileManager = document.querySelector("#file-manager-container");
+
+                    if( fileManager ){
+                        fileManager.innerHTML = "";
+                        fileManager.innerHTML = data;
+ 
+                        updateCSRFTokenFieldsToLastVersions();  
+                    }
+                }else{
+                    console.error(xhr.status);
+                }
+            };
+
+            xhr.onerror = function(){
+                //console.log("show fileManager error");
+            }
+
+            xhr.send();
+
+        };
+
+        document.addEventListener("DOMContentLoaded", function(event){
+
+            showFileManager("");
+
+        });
+
+        function reloadFileManager(){
+
+            showFileManager(event.target.dataset.fileManagerCurrentDirectory);
+
+        }
+
+        function createFolderViaFileManager(){
+
+            const formData = new FormData();
+
+            const folderName = document.querySelector('#file-manager-folder-name');
+            const csrfNameInput = document.querySelector('#csrf-dynamic-name');
+            const csrfValueInput = document.querySelector('#csrf-dynamic-value');
+
+            formData.append(folderName.name, folderName.value);
+            formData.append("current-directory", event.target.dataset.fileManagerCurrentDirectory);
+
+            formData.append(csrfNameInput.name, csrfNameInput.value);
+            formData.append(csrfValueInput.name, csrfValueInput.value);
+
+            const xhr = new XMLHttpRequest();
+
+            xhr.open('POST', '/admin/file/create-folder', true);
+
+            xhr.onload = function() {
+                if( xhr.status === 200 ){
+                    console.log('Success:', xhr.responseText);
+                }else{
+                    console.error('Error:', xhr.statusText);
+                }
+            };
+
+            xhr.send(formData);
+
+            showFileManager(event.target.dataset.fileManagerCurrentDirectory);          
+        }
+
+        function deleteFolderViaFileManager(){
+
+            const formData = new FormData();
+
+            const csrfNameInput = document.querySelector('#csrf-dynamic-name');
+            const csrfValueInput = document.querySelector('#csrf-dynamic-value');
+
+            formData.append("deleted-folder", event.target.dataset.fileManagerDeletedFolder);
+            formData.append("current-directory", event.target.dataset.fileManagerCurrentDirectory);
+
+            formData.append(csrfNameInput.name, csrfNameInput.value);
+            formData.append(csrfValueInput.name, csrfValueInput.value);
+
+            const xhr = new XMLHttpRequest();
+
+            xhr.open('POST', '/admin/file/delete-folder', true);
+
+            xhr.onload = function() {
+                if( xhr.status === 200 ){
+                    console.log('Success:', xhr.responseText);
+                }else{
+                    console.error('Error:', xhr.statusText);
+                }
+            };
+
+            xhr.send(formData);
+
+            showFileManager(event.target.dataset.fileManagerCurrentDirectory);          
+        }
+
+        function loadFileViaFileManager(){
+
+            const formData = new FormData();
+
+            const csrfNameInput = document.querySelector('#csrf-dynamic-name');
+            const csrfValueInput = document.querySelector('#csrf-dynamic-value');
+
+            formData.append(csrfNameInput.name, csrfNameInput.value);
+            formData.append(csrfValueInput.name, csrfValueInput.value);
+
+            formData.append("current-directory", event.target.dataset.fileManagerCurrentDirectory);
+
+            const fileInput = document.querySelector('#file-manager-input-file');
+
+            if( fileInput.files.length > 0 ){
+                formData.append('file', fileInput.files[0]);
+            }
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/admin/file/load-file', true);
+
+            xhr.onload = function() {
+                if( xhr.status === 200 ){
+                    console.log('Success:', xhr.responseText);
+                }else{
+                    console.error('Error:', xhr.statusText);
+                }
+            };
+
+            xhr.send(formData);
+
+            showFileManager(event.target.dataset.fileManagerCurrentDirectory);
+        }
+
+        function deleteFileViaFileManager(){
+
+            const formData = new FormData();
+
+            const csrfNameInput = document.querySelector('#csrf-dynamic-name');
+            const csrfValueInput = document.querySelector('#csrf-dynamic-value');
+
+            formData.append(csrfNameInput.name, csrfNameInput.value);
+            formData.append(csrfValueInput.name, csrfValueInput.value);
+
+            formData.append("current-directory", event.target.dataset.fileManagerCurrentDirectory);
+            formData.append("deleted-file", event.target.dataset.fileManagerDeletedFile);
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/admin/file/delete-file', true);
+
+            xhr.onload = function(){
+                if( xhr.status === 200 ){
+                    console.log('Success:', xhr.responseText);
+                }else{
+                    console.error('Error:', xhr.statusText);
+                }
+            };
+
+            xhr.send(formData);
+
+            showFileManager(event.target.dataset.fileManagerCurrentDirectory);
+        }        
+
+        function updateCSRFTokenFieldsToLastVersions(){
+            let csrfNameFields = document.querySelectorAll(".csrf-static-name");
+            if( csrfNameFields ){
+                for( let csrfNameField of csrfNameFields ){
+                    csrfNameField.value = document.querySelector("#csrf-dynamic-name").value;
+                }
+            }
+
+            let csrfValueFields = document.querySelectorAll(".csrf-static-value");
+            if( csrfValueFields ){
+                for( let csrfValueField of csrfValueFields ){
+                    csrfValueField.value = document.querySelector("#csrf-dynamic-value").value;
+                }
+            }            
+        }
+ 
+    </script>
+
+</div><!-- main -->
+{% include '/admin/footer.html.twig' %}
+

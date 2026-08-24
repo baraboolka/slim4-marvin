@@ -1,0 +1,157 @@
+{% include 'header.html.twig' %}
+<div id="main">
+
+    <div id="sidebar">
+        <div id="sidebar-container">
+            <h3>[sidebar]</h3>
+
+            <h4>System</h4>
+            <ul>
+                <li><a href="/">Main</a></li>
+                <li><a href="/search">Search</a></li>
+                <li><a href="javascript:void(0);" onclick="showMailForm()">Mailing</a></li>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/admin">admin</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul> 
+
+            <h4>Pages</h4>
+			<ul>
+				{% import "index-page-menu.html.twig" as macros %}
+				{{ macros.parentTree(pageTree) }}
+			</ul>
+
+            <h4>Galleries</h4>
+			<ul>
+				{% import "index-gallery-menu.html.twig" as macros %}
+				{{ macros.parentTree(galleryTree) }}
+			</ul>            
+                     
+        </div><!-- sidebar-container -->
+    </div><!-- sidebar -->
+
+    <div id="content">
+        <div id="content-container">
+            <h3>[content]</h3>
+            {% block content %}
+                <!-- content here -->
+            {% endblock %}
+        </div><!-- content-container -->
+    </div><!-- content -->
+    
+    <div id="mail-form-place"><!-- mail-form-here --></div>
+
+    <script>
+        function loadMailForm(){
+
+            let xhr = new XMLHttpRequest();
+
+            xhr.open("GET", "/load-mail-form", true);
+
+            xhr.onload = function(){
+                if( xhr.status >= 200 && xhr.status < 300 ){
+                    let data = xhr.responseText;
+                    let fileManager = document.querySelector("#mail-form-place");
+
+                    if( fileManager ){
+                        fileManager.innerHTML = "";
+                        fileManager.innerHTML = data;
+ 
+                        updateCSRFTokenFieldsToLastVersions();  
+                    }
+                }else{
+                    console.error(xhr.status);
+                }
+            };
+
+            xhr.onerror = function(){
+                //console.log("show fileManager error");
+            }
+
+            xhr.send();                
+        }
+
+        document.addEventListener("DOMContentLoaded", function(event){
+
+            loadMailForm();
+
+        });        
+
+        function showMailForm(){
+            
+            let showFormContainer = document.querySelector(".mail-form-container");
+
+            if( showFormContainer ){
+                showFormContainer.classList.toggle("active");
+            }
+
+        }  
+
+        function closeMailForm(){
+
+            let closeFormContainer = document.querySelector(".mail-form-container");
+
+            if( closeFormContainer ){
+                closeFormContainer.classList.remove("active");
+            }
+
+        }
+
+        function sendMailForm(){
+
+            const formData = new FormData();
+
+            const csrfNameInput = document.querySelector('#csrf-dynamic-name');
+            const csrfValueInput = document.querySelector('#csrf-dynamic-value');
+
+            formData.append(csrfNameInput.name, csrfNameInput.value);
+            formData.append(csrfValueInput.name, csrfValueInput.value);
+
+            const author = document.querySelector('.mail-form-author');
+            const text = document.querySelector('.mail-form-text');
+
+            formData.append("author", author.value);
+            formData.append("text", text.value);
+
+            const xhr = new XMLHttpRequest();
+
+            xhr.open('POST', '/send-mail-form', true);
+
+            xhr.onload = function() {
+                if( xhr.status === 200 ){
+                    console.log('Success:', xhr.responseText);
+                }else{
+                    console.error('Error:', xhr.statusText);
+                }
+            };
+
+            xhr.onerror = function(){
+                //console.log("show form error");
+            }
+
+            xhr.send(formData);
+            
+            loadMailForm();
+
+        }        
+
+        function updateCSRFTokenFieldsToLastVersions(){
+            let csrfNameFields = document.querySelectorAll(".csrf-static-name");
+            if( csrfNameFields ){
+                for( let csrfNameField of csrfNameFields ){
+                    csrfNameField.value = document.querySelector("#csrf-dynamic-name").value;
+                }
+            }
+
+            let csrfValueFields = document.querySelectorAll(".csrf-static-value");
+            if( csrfValueFields ){
+                for( let csrfValueField of csrfValueFields ){
+                    csrfValueField.value = document.querySelector("#csrf-dynamic-value").value;
+                }
+            }            
+        }       
+    </script>
+
+</div><!-- main -->
+{% include 'footer.html.twig' %}
+

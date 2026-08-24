@@ -1,0 +1,149 @@
+{% extends "/admin/index.html.twig" %}
+
+{% block content %}
+<h3>Add/edit gallery</h3>
+
+<form action="/admin/gallery/save" enctype="multipart/form-data" method="post" class="form">
+    <input type="hidden" class="csrf-static-name" name="{{ csrf.nameKey }}" value="{{ csrf.name }}">
+    <input type="hidden" class="csrf-static-value" name="{{ csrf.valueKey }}" value="{{ csrf.value }}">
+
+    <input type="hidden" name="id" value="{{ gallery.id }}">
+
+    <div class="form-block">
+        <label for="title">alias</label>
+        <input type="text" name="alias" value="{{ gallery.alias }}" placeholder="alias" autocomplete="off">
+    </div>
+
+    <div class="form-block">
+        <label for="title">title</label>
+        <input type="text" name="title" value="{{ gallery.title }}" placeholder="title" autocomplete="off">
+    </div>
+
+    <div class="form-block">
+        <label for="text">text</label>
+        <textarea name="text" placeholder="text" autocomplete="off">{{ gallery.text }}</textarea>
+    </div>
+
+    <div class="form-block">
+        <label for="text_editor">text_editor</label>
+        <textarea name="text_editor" id="text_editor" class="form-hidden">{{ gallery.text_editor }}</textarea>
+        <textarea name="summernote_editor" id="summernote_editor"></textarea>
+        <script>
+            $(document).ready(function() {
+                /* initiate summernote editor */
+                $('#summernote_editor').summernote(
+                    {
+                        height: 200,
+                        focus: false,
+                        callbacks: {
+                            onInit: function (contents) {
+                                contents.editable.html('');
+                            },
+                            onChange: function(contents, $editable) {
+                                /* post new content for target textarea by changing the summernote editor */
+                                let htmlCode = $('#summernote_editor').summernote('code');
+                                let postText = document.querySelector("#text_editor");
+
+                                if( postText ){
+                                    if( htmlCode == '<p><br></p>' ){
+                                        /* prevent "<p><br></p>" inserting on change|save */
+                                        htmlCode = "";
+                                    }
+                                    postText.value = htmlCode;
+                                }
+                            }
+                        }
+                    }	
+                );
+
+                /* load html pre-text from textarea for summernote editor */
+                let pageText = document.querySelector("#text_editor");
+                
+                if( pageText.value ){
+                    $('#summernote_editor').summernote('pasteHTML', pageText.value);
+                }
+
+            });
+            
+        </script>           
+    </div>
+
+    <div class="form-block">
+        <label for="parent">parent</label>
+        <select name="parent">
+            <option value="0">root</option>
+
+            {% import "admin/gallery-edit-parent.html.twig" as macros %}
+            {{ macros.parentTree(tree) }}
+
+        </select>
+    </div>
+
+    <div class="form-block">
+
+        {% if images %}
+	
+            <label for="images">images</label>
+
+            <div class="list-row">
+                <div class="list-col list-col-gallery-file">file</div>
+                <div class="list-col list-col-gallery-title">title</div>
+                <div class="list-col list-col-gallery-main">is main</div>
+                <div class="list-col list-col-gallery-delete">delete</div>
+            </div>
+
+		    {% for image in images %}
+
+                <div class="list-row">
+                    <input type="hidden" name="image_id[]" value="{{ image.id }}">
+
+                    <div class="list-col list-col-gallery-file">
+                        <img src="/galleries/{{ image.file }}" alt="{{ image.title }}">
+                    </div>
+
+                    <div class="list-col list-col-gallery-title">
+                        <input type="text" name="image_title[]" value="{{ image.title }}">
+                    </div>
+
+                    <div class="list-col list-col-gallery-main">
+                        <input type="radio" name="image_main" {{ image.checked }} value="{{ image.id }}">
+                    </div>
+
+                    <div class="list-col list-col-gallery-delete">
+                        <input type="checkbox" name="image_delete[]" value="{{ image.id }}">
+                    </div>
+                </div>
+
+            {% endfor %}
+
+        </ul>
+
+        {% endif %}
+
+    </div>
+
+    <div class="form-block">
+        <label for="image_file">add image</label>
+        <input type="file" name="file">
+    </div>
+
+    <div class="form-block">
+        <label for="seo_title">seo_title</label>
+        <input type="text" name="seo_title" value="{{ gallery.seo_title }}" placeholder="seo title" autocomplete="off">
+    </div> 
+
+    <div class="form-block">
+        <label for="seo_title">seo_keywords</label>
+        <input type="text" name="seo_keywords" value="{{ gallery.seo_keywords }}" placeholder="seo keywords" autocomplete="off">
+    </div> 
+    
+    <div class="form-block">
+        <label for="seo_title">seo_description</label>
+        <input type="text" name="seo_description" value="{{ gallery.seo_description }}" placeholder="seo description" autocomplete="off">
+    </div>     
+
+    <div class="form-block">
+        <input type="submit" class="form-save" value="save">
+    </div> 
+</form>
+{% endblock %}

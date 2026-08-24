@@ -1,0 +1,26 @@
+{% extends "/admin/index.html.twig" %}
+
+{% block content %}
+<h3>Add/edit user</h3>
+
+<form action="/admin/user/save" method="post" class="form">
+    <input type="hidden" class="csrf-static-name" name="{{ csrf.nameKey }}" value="{{ csrf.name }}">
+    <input type="hidden" class="csrf-static-value" name="{{ csrf.valueKey }}" value="{{ csrf.value }}">
+
+    <input type="hidden" name="id" value="{{ user.id }}">
+
+    <div class="form-block">
+        <label for="login">login</label>
+        <input type="text" name="login" value="{{ user.login }}" placeholder="login" autocomplete="off">
+    </div>
+
+    <div class="form-block">
+        <label for="password">password</label>
+        <input type="text" name="password" value="" placeholder="password" autocomplete="off">
+    </div>
+
+    <div class="form-block">
+        <input type="submit" class="form-save" value="save">
+    </div> 
+</form>
+{% endblock %}

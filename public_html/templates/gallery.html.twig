@@ -1,0 +1,54 @@
+{% extends "index.html.twig" %}
+
+{% block content %}
+	<h1>gallery, block what extends index</h1>
+    
+    <h1>{{ gallery.title }}</h1>
+
+    <h2>text</h2>
+
+    <div class="block">
+       {{ gallery.text | raw }}
+    </div>
+
+   <h2>text_editor</h2>
+
+    <div class="block">
+        {{ gallery.text_editor | raw }}
+    </div>    
+
+    <div class="block">
+        {% if images %} 
+            <h3>Images</h3>
+            <ul>
+
+                {% for image in images %}
+
+                    <li>
+                        <a href="/galleries/{{ image.file }}" class="fancybox">
+                            <img src="/galleries/{{ image.file }}" alt="">
+                        </a>
+                    </li>
+
+                {% endfor %}
+
+            </ul>
+        {% endif %}    
+    </div>
+
+    <div class="block">
+        {% if children %}
+            <h3>Sub-elements</h3>
+            <ul>
+
+            {% for child in children %}
+
+                <li><a href="/gallery/{{ child.alias }}">{{ child.title }}</a></li>
+
+            {% endfor %}
+
+            </ul>
+        {% endif %}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,257 @@
+@font-face {
+    font-family: "roboto-light";
+    font-style: normal;
+    font-weight: normal;
+	src: local("☺"), url("/fonts/roboto-light.woff") format("woff"), url("/fonts/roboto-light.ttf") format("truetype"), url("/fonts/roboto-light.svg") format("svg");
+}
+@font-face {
+    font-family: "roboto-regular";
+    font-style: normal;
+    font-weight: normal;
+	src: local("☺"), url("/fonts/roboto-regular.woff") format("woff"), url("/fonts/roboto-regular.ttf") format("truetype"), url("/fonts/roboto-regular.svg") format("svg");
+}
+@font-face {
+    font-family: "roboto-medium";
+    font-style: normal;
+    font-weight: normal;
+	src: local("☺"), url("/fonts/roboto-medium.woff") format("woff"), url("/fonts/roboto-medium.ttf") format("truetype"), url("/fonts/roboto-medium.svg") format("svg");
+}
+@font-face {
+    font-family: "roboto-bold";
+    font-style: normal;
+    font-weight: normal;
+	src: local("☺"), url("/fonts/roboto-bold.woff") format("woff"), url("/fonts/roboto-bold.ttf") format("truetype"), url("/fonts/roboto-bold.svg") format("svg");
+}
+
+html,
+body {
+    padding: 0px;
+    margin: 0px;
+    font-family: "roboto-regular";
+    font-size: 16px;
+    font-weight: normal;
+    color: #222222;
+}
+
+h1, h2, h3 {
+    margin: 0px;
+    padding: 10px 0px;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+header {
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+    color:#ffffff;
+    background: #090979;
+    background: linear-gradient(90deg,rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
+    -webkit-box-shadow: 0px 0px 8px 0px rgba(34, 60, 80, 0.2);
+    -moz-box-shadow: 0px 0px 8px 0px rgba(34, 60, 80, 0.2);
+    box-shadow: 0px 0px 8px 0px rgba(34, 60, 80, 0.2);
+}
+
+#header-container {
+    width: 90%;
+    padding: 10px 0px;
+    margin: 0px auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+#main {
+    width: 100%;
+    padding: 0px 0px;
+    margin: 20px auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-around;
+}
+
+#sidebar {
+    width: 30%;
+    flex-basis: 30%;
+    padding: 0px;
+    margin: 0px;
+    background: #00D4FF;
+    color:#ffffff;
+    -webkit-box-shadow: 0px 0px 8px 0px rgba(34, 60, 80, 0.2);
+    -moz-box-shadow: 0px 0px 8px 0px rgba(34, 60, 80, 0.2);
+    box-shadow: 0px 0px 8px 0px rgba(34, 60, 80, 0.2);
+}
+
+#sidebar-container {
+    width: 90%;
+    margin: 0px auto;
+    padding: 10px 0%;
+}
+
+#content {
+    width: 60%;
+    flex-basis: 60%;
+    padding: 0px;
+    margin: 0px;
+    -webkit-box-shadow: 0px 0px 8px 0px rgba(34, 60, 80, 0.2);
+    -moz-box-shadow: 0px 0px 8px 0px rgba(34, 60, 80, 0.2);
+    box-shadow: 0px 0px 8px 0px rgba(34, 60, 80, 0.2);    
+}
+
+#content-container {
+    width: 90%;
+    margin: 0px auto;
+    padding: 10px 0px;
+}
+
+#content-404 {
+    width: 100%;
+    flex-basis: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+#content a,
+#content-404 a {
+    color: blue;
+}
+
+#mail-form-place {
+    padding: 0px;
+    margin: 0px;
+}
+
+.mail-form-container {
+    display: none;
+    padding: 0px;
+    margin: 0px;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.mail-form-container.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mail-form-background {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
+    background: #00000080;
+    cursor: pointer;
+}
+
+.mail-form {
+    width: 300px;
+    flex-basis: 300px;
+    padding: 10px;
+    margin: 0px;
+    background: #ffffff;
+    z-index: 2;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    box-shadow: 0px 0px 13px 0px rgba(34, 60, 80, 0.3);
+}
+
+.mail-form-block {
+    width: 90%;
+    padding: 0px;
+    margin: 10px auto;
+}
+
+.mail-form-block span {
+    display: block;
+    padding: 0px;
+    margin: 0px;
+    font-size: 16px;
+}
+
+.mail-form-block input,
+.mail-form-block textarea {
+    width: 96%;
+    padding: 5px 3%;
+    margin: 0px 0px;
+    font-size: 16px;
+}
+
+.mail-form-block textarea {
+    resize: none;
+}
+
+.mail-form-block input:active, 
+.mail-form-block input:hover, 
+.mail-form-block input:focus,
+.mail-form-block textarea:active, 
+.mail-form-block textarea:hover, 
+.mail-form-block textarea:focus {
+    outline: 0;
+    outline-offset: 0;
+}
+
+.mail-form-send {
+    width: 100px;
+    flex-basis: 100px;
+    padding: 10px;
+    margin: 10px auto;
+    background-color: midnightblue;
+    color: #ffffff;
+    text-align: center;
+	transition: all 300ms ease-out;
+	-webkit-transition: all 300ms ease-out;
+	-moz-transition: all 300ms ease-out;
+	-ms-transition: all 300ms ease-out;
+	-o-transition: all 300ms ease-out;	
+    cursor: pointer;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+
+.mail-form-send:hover {
+    background-color: blue;
+ 	transition: all 300ms ease-out;
+	-webkit-transition: all 300ms ease-out;
+	-moz-transition: all 300ms ease-out;
+	-ms-transition: all 300ms ease-out;
+	-o-transition: all 300ms ease-out;	   
+}
+
+footer {
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+    color:#ffffff;
+    background: #090979;
+    background: linear-gradient(90deg,rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
+    -webkit-box-shadow: 0px 0px 8px 0px rgba(34, 60, 80, 0.2);
+    -moz-box-shadow: 0px 0px 8px 0px rgba(34, 60, 80, 0.2);
+    box-shadow: 0px 0px 8px 0px rgba(34, 60, 80, 0.2);   
+}
+#footer-container {
+    padding: 10px;
+    margin: 0px auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}

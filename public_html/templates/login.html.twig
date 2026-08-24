@@ -1,0 +1,24 @@
+{% extends "index.html.twig" %}
+
+{% block content %}
+<h1>Login form {{ text }}</h1>
+<p>{{ csrf.nameKey }} {{ csrf.name }} {{ csrf.valueKey }} {{ csrf.value }}</p>
+<form action="/login" method="post" class="login-form">
+    <input type="hidden" class="csrf-static-name" name="{{ csrf.nameKey }}" value="{{ csrf.name }}">
+    <input type="hidden" class="csrf-static-value" name="{{ csrf.valueKey }}" value="{{ csrf.value }}">
+
+    <div class="login-form-block">
+        <label for="login">login</label>
+        <input type="text" name="login" autocomplete="off">
+    </div>
+
+    <div class="login-form-block">
+        <label for="password">password</label>
+        <input type="password" name="password" autocomplete="off">
+    </div>
+
+    <div class="login-form-block">
+        <input type="submit" value="login">
+    </div> 
+</form>
+{% endblock %}

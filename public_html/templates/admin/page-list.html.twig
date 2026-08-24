@@ -1,0 +1,21 @@
+{% extends "/admin/index.html.twig" %}
+
+{% block content %}
+
+    <div class="message">{{ message }}</div>
+
+    <div class="list">
+        <div class="list-row">
+            <div class="list-col"><h2>Pages</h2></div>
+            <div class="list-col list-add">
+                <a href="/admin/page/add">
+                    <img src="/images/list-add-3x.png" alt="">
+                </a>
+            </div>
+        </div><!-- list-row -->
+
+        {% import "admin/page-list-parent.html.twig" as macros %}
+        {{ macros.parentTree(tree) }}
+        
+    </div><!-- list -->
+{% endblock %}

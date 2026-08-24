@@ -1,0 +1,33 @@
+{% extends "/admin/index.html.twig" %}
+
+{% block content %}
+
+    <div class="message">{{ message }}</div>
+
+    <div class="list">
+        <div class="list-row">
+            <div class="list-col"><h2>Users</h2></div>
+            <div class="list-col list-add">
+                <a href="/admin/user/add">
+                    <img src="/images/list-add-3x.png" alt="">
+                </a>
+            </div>
+        </div><!-- list-row -->
+        
+        {% for user in users %}
+        
+            <div class="list-row">
+                <div class="list-col list-level">{{ user.id }}.</div>
+                <div class="list-col list-title"><a href="/admin/user/edit/{{ user.id }}">{{ user.login }}</a></div>
+                <div class="list-col list-delete">
+                    <a href="/admin/user/delete/{{ user.id }}" onclick="if(!confirm('delete?')) return false;">
+                        <img src="/images/list-delete-3x.png" alt="">
+                    </a>             
+                </div>
+            </div><!-- list-row -->
+
+        {% endfor %}
+
+    </div><!-- list -->
+    
+{% endblock %}

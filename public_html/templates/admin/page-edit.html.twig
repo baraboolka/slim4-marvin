@@ -1,0 +1,103 @@
+{% extends "/admin/index.html.twig" %}
+
+{% block content %}
+<h3>Add/edit page</h3>
+
+<form action="/admin/page/save" method="post" class="form">
+    <input type="hidden" class="csrf-static-name" name="{{ csrf.nameKey }}" value="{{ csrf.name }}">
+    <input type="hidden" class="csrf-static-value" name="{{ csrf.valueKey }}" value="{{ csrf.value }}">
+
+    <input type="hidden" name="id" value="{{ page.id }}">
+
+    <div class="form-block">
+        <label for="title">alias</label>
+        <input type="text" name="alias" value="{{ page.alias }}" placeholder="alias" autocomplete="off">
+    </div>
+
+    <div class="form-block">
+        <label for="title">title</label>
+        <input type="text" name="title" value="{{ page.title }}" placeholder="title" autocomplete="off">
+    </div>
+
+    <div class="form-block">
+        <label for="text">text</label>
+        <textarea name="text" placeholder="text" autocomplete="off">{{ page.text }}</textarea>
+    </div>
+
+    <div class="form-block">
+        <label for="text_editor">text_editor</label>
+        <!-- <textarea name="text_editor" placeholder="editor" autocomplete="off">{{ page.text_editor }}</textarea> -->
+        <textarea name="text_editor" id="text_editor" class="form-hidden">{{ page.text_editor }}</textarea>
+        <textarea name="summernote_editor" id="summernote_editor"></textarea>
+        <script>
+            $(document).ready(function() {
+                /* initiate summernote editor */
+                $('#summernote_editor').summernote(
+                    {
+                        height: 200,
+                        focus: false,
+                        callbacks: {
+                            onInit: function (contents) {
+                                contents.editable.html('');
+                            },
+                            onChange: function(contents, $editable) {
+                                /* post new content for target textarea by changing the summernote editor */
+                                let htmlCode = $('#summernote_editor').summernote('code');
+                                let postText = document.querySelector("#text_editor");
+
+                                if( postText ){
+                                    if( htmlCode == '<p><br></p>' ){
+                                        /* prevent "<p><br></p>" inserting on change|save */
+                                        htmlCode = "";
+                                    }
+                                    postText.value = htmlCode;
+                                }
+                            }
+                        }
+                    }	
+                );
+
+                /* load html pre-text from textarea for summernote editor */
+                let pageText = document.querySelector("#text_editor");
+                
+                if( pageText.value ){
+                    $('#summernote_editor').summernote('pasteHTML', pageText.value);
+                }
+
+            });
+            
+        </script>           
+    </div>
+
+    <div class="form-block">
+        <label for="parent">parent</label>
+        <!-- <input type="text" name="parent" value="{{ page.parent }}" placeholder="parent" autocomplete="off"> -->
+        <select name="parent">
+            <option value="0">root</option>
+
+            {% import "admin/page-edit-parent.html.twig" as macros %}
+            {{ macros.parentTree(tree) }}
+
+        </select>
+    </div>
+
+    <div class="form-block">
+        <label for="seo_title">seo_title</label>
+        <input type="text" name="seo_title" value="{{ page.seo_title }}" placeholder="seo title" autocomplete="off">
+    </div> 
+
+    <div class="form-block">
+        <label for="seo_title">seo_keywords</label>
+        <input type="text" name="seo_keywords" value="{{ page.seo_keywords }}" placeholder="seo keywords" autocomplete="off">
+    </div> 
+    
+    <div class="form-block">
+        <label for="seo_title">seo_description</label>
+        <input type="text" name="seo_description" value="{{ page.seo_description }}" placeholder="seo description" autocomplete="off">
+    </div>     
+
+    <div class="form-block">
+        <input type="submit" class="form-save" value="save">
+    </div> 
+</form>
+{% endblock %}

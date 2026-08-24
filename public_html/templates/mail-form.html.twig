@@ -1,0 +1,24 @@
+<!-- main csrf tokens -->
+<input type="hidden" id="csrf-dynamic-name" name="{{ csrf.nameKey }}" value="{{ csrf.name }}">
+<input type="hidden" id="csrf-dynamic-value" name="{{ csrf.valueKey }}" value="{{ csrf.value }}">
+
+<div class="mail-form-container">
+
+    <div class="mail-form-background" onclick="closeMailForm()"></div>
+
+    <div class="mail-form">
+
+        <div class="mail-form-block">
+            <span>author</span>
+            <input type="text" class="mail-form-author">
+        </div>
+
+        <div class="mail-form-block">
+            <span>text</span>
+            <textarea type="text" class="mail-form-text"></textarea>
+        </div>        
+
+        <div class="mail-form-send" onclick="sendMailForm()">send</div>
+    </div>
+
+</div><!-- mail-form-container -->

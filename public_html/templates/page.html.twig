@@ -1,0 +1,33 @@
+{% extends "index.html.twig" %}
+
+{% block content %}
+	<h1>page, block what extends index</h1>
+    
+    <h1>{{ page.title }}</h1>
+
+    <h2>text</h2>
+
+    <div class="block">
+       {{ page.text | raw }}
+    </div>
+
+   <h2>text_editor</h2>
+
+    <div class="block">
+        {{ page.text_editor | raw }}
+    </div>    
+
+    {% if children %}
+        <h3>Sub-elements</h3>
+        <ul>
+
+        {% for child in children %}
+
+            <li><a href="/page/{{ child.alias }}">{{ child.title }}</a></li>
+
+        {% endfor %}
+
+        </ul>
+    {% endif %}
+
+{% endblock %}
