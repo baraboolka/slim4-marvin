@@ -188,4 +188,25 @@ class Basic {
 
     }
 
+    /**
+     * Get SEO data by id
+     * 
+     * @param   int         $value  Item id      
+     * 
+     * @return  array|null          Array of the seo data or null
+     */   
+    public function getSeoById(int $value): ?array {
+
+		$sql = "SELECT seo_title, seo_keywords, seo_description FROM " . $this->tableName . " WHERE id = :id";
+
+		$query = $this->pdo->prepare($sql);	
+		$query->bindParam(':id', $value);
+		$query->execute();
+		
+		$result = $query->fetch();
+
+        return is_array($result) ? $result : null;
+
+    }
+
 }

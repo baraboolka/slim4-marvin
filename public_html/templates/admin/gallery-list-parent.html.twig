@@ -5,8 +5,8 @@
 		{% for branch in tree %}
 
             <div class="list-row">  
-                <div class="list-col list-level"><img src="/images/list-level-3x.png" alt=""></div>
-                <div class="list-col list-title">
+                <div class="list-col list-col-level"><!-- <img src="/images/list-level-3x.png" alt=""> --></div>
+                <div class="list-col list-col-title">
                     <h3>
                         <a href="/admin/gallery/edit/{{ branch.id }}" title="[id: {{ branch.id }}]" alt="[id: {{ branch.id }}]">
                         {{ branch.title }}
@@ -14,9 +14,9 @@
                     </h3>
                     <h4>/{{ branch.alias }}</h4>
                 </div>
-                <div class="list-col list-delete">
+                <div class="list-col list-col-delete">
                     <a href="/admin/gallery/delete/{{ branch.id }}" onclick="if(!confirm('delete?')) return false;">
-                        <img src="/images/list-delete-3x.png" alt="">
+                        <!-- <img src="/images/list-delete-3x.png" alt=""> -->
                     </a>             
                 </div>
 

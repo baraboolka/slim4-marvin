@@ -12,17 +12,17 @@ class Mailer {
 
     private $config;
 
-    //constructor receives container instance
+    /* constructor receives container instance */
     public function __construct(array $config)
     {
 
-        //base mailing settings
+        /* base mailing settings */
         $this->config = $config;
 
     }
 
     public function __invoke(array $settings): PHPMailer {
-        //$settings - current mailing settings
+        /* $settings - current mailing settings */
         $mail = new PHPMailer(true);
 
         if( $this->config["server"]["isSMTP"] ){

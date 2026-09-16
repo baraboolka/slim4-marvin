@@ -1,24 +1,35 @@
 {% include '/admin/header.html.twig' %}
 <div id="main">
+
+    <div id="sidebar-mobile-show" onclick="$('#sidebar').toggleClass('active')" style="display: none;"><!-- show sidebar --></div>
+
     <div id="sidebar">
         <div id="sidebar-container">
-            <h3>[admin, sidebar]</h3>
-            <ul>
-                <li><a href="/admin/page">Pages</a></li>            
-                <li><a href="/admin/user">Users</a></li>
-                <li><a href="/admin/gallery">Galleries</a></li>
-            </ul>
+            <div id="sidebar-mobile-close" onclick="$('#sidebar').toggleClass('active')" style="display: none;"><!-- close sidebar --></div>
+
+            <div id="sidebar-scroll">
+                <h3>Menu</h3>
+                <ul>
+                    <li><a href="/admin/page">Pages</a></li>            
+                    <li><a href="/admin/user">Users</a></li>
+                    <li><a href="/admin/gallery">Galleries</a></li>
+                    <!-- <li><a href="/logout">Logout</a></li> -->
+                </ul>
+            </div><!-- sidebar-scroll -->
         </div><!-- sidebar-container -->
     </div><!-- sidebar -->
 
     <div id="content">
         <div id="content-container">
-            <h3>[admin, content]</h3>
             {% block content %}
                 <!-- content here -->
             {% endblock %}
         </div><!-- content-container -->
     </div><!-- content -->
+
+    <div id="file-manager-toggle">
+        <span onclick="$('#file-manager').toggleClass('active')">File manager</span>
+    </div>
 
     <div id="file-manager">
         <div id="file-manager-container">
@@ -149,6 +160,9 @@
 
             if( fileInput.files.length > 0 ){
                 formData.append('file', fileInput.files[0]);
+            }else{
+                alert("Please select a file");
+                return 0;
             }
 
             const xhr = new XMLHttpRequest();

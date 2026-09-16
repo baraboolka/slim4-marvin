@@ -34,7 +34,6 @@ class CheckAccess implements MiddlewareInterface {
             $checkAccess = $user->checkAccess($_SESSION['user_temp_hash']);
 
             if( $checkAccess ){
-
                 /* user has access for the admin panel */
                 return $response;
 

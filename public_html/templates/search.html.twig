@@ -1,15 +1,13 @@
 {% extends "index.html.twig" %}
 
 {% block content %}
-	<h1>gallery, block what extends index</h1>
-    
     <h1>Search</h1>
 
     <p>{{ message }}</p>
 
-    <form action="/search" method="get">
-        <input name="word" type="text">
-        <input value="search" type="submit">
+    <form action="/search" id="search-form" name="search_form" method="get">
+        <input id="search-form-word" name="word" type="text">
+        <div id="search-form-ok" onclick="document.search_form.submit();"></div>
     </form>
 
     {% if pages %}

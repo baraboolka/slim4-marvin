@@ -15,16 +15,23 @@
         <link href="/css/prism.css" rel="stylesheet">
         <script src="/js/prism.js"></script>
 
+        <script src="/js/jquery-3.7.1.js"></script>
+
+        <!-- fancybox -->
+        <link href="/css/jquery.fancybox.css" rel="stylesheet" type="text/css" rel="stylesheet">
+        <script src="/js/jquery.fancybox.js"></script>        
+
+		<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+
         <!-- seo -->
-        <title></title>
-        <meta name="keywords" content="" />
-        <meta name="description" content="" />
+        <title>{{ seo.seo_title }}</title>
+        <meta name="keywords" content="{{ seo.seo_keywords }}" />
+        <meta name="description" content="{{ seo.seo_description }}" />
     </head>
     <body>
         <header>
             <div id="header-container">
-                <h3>[header]</h3> 
-                <a href="/">Free Marvin</a>
-                <div>user temp hash: {{ userTempHash }}</div>
+                <a id="header-logo" href="/">"Free Marvin" based on Slim 4</a> 
+                <a id="header-cabinet" href="/admin">admin</a>
             </div><!-- header-container -->
         </header>

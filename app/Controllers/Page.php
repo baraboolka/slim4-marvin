@@ -14,7 +14,7 @@ class Page {
 
     private $container;
 
-    //constructor receives container instance
+    /* constructor receives container instance */
     public function __construct(ContainerInterface $container)
     {
 
@@ -57,6 +57,13 @@ class Page {
 
         }
 
+        /* seo */
+        $seo = $page->getSeoById((int)$pageInfo["id"]);
+
+        /* gallery menu */
+        $gallery = new \Models\Gallery($this->container->get("pdo"));
+        $galleryTree =  $gallery->getFamilyTree();  
+
         /* view */
         $view = Twig::fromRequest($request);
         
@@ -64,27 +71,12 @@ class Page {
             'csrf' => $csrf,
             'page' => $pageInfo,
             'pageTree' => $pageTree,
+            'galleryTree' => $galleryTree,
             'children' => $pageChildren,
+            'seo' => $seo,
         ]);
 
     }
-
-    /*public function hello(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
-        // your code to access items in the container... $this->container->get('');
-
-        print_r($this->container->get("testContainer"));
-        print_r($this->container->get("testContainer2"));
-
-        $page = new \Models\Page($this->container->get("pdo"));
-        var_dump($page->getAll());
-        var_dump($page->getById(12));
-        var_dump($page->getByAlias('page 1 url'));
-        var_dump($page->getByAlias('ddpage 1 url'));
-
-        $response->getBody()->write("Hello from Controllers/Test->hello");
-
-	    return $response;
-   }*/
 
     public function list(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
 
@@ -155,7 +147,7 @@ class Page {
 
     public function save(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
 
-    /* page */
+        /* page */
         $page = new \Models\Page($this->container->get("pdo"));
 
         $params = (array)$request->getParsedBody();
@@ -183,10 +175,6 @@ class Page {
                 ->withStatus(302);; 
 
         }
-        //$params["alias"] = \Controllers\Utility::clearSpecialSymbols($params["alias"]);
-        //$params["alias"] = \Controllers\Utility::changeCyrillicSymbols($params["alias"]);
-
-        //$params["parent] - устанавливаем родительскую категорию
 
         if( empty($params["id"]) ){
             
@@ -231,7 +219,7 @@ class Page {
         $pageHasChildren = $page->getByParent((int)$pageInfo["id"]);
 
         if( !empty($pageHasChildren) ){
-            //page has children
+            /* page has sub-pages */
             \Controllers\Utility::putMessageIntoStash("page has sub-pages. Please, delete them first");
 
             return $response->withHeader('Location', '/admin/page')->withStatus(302);;             

@@ -15,7 +15,7 @@ class File {
     private $container;
     const FILE_DIRECTORY = "public_html" . DIRECTORY_SEPARATOR . "files"; 
 
-    //constructor receives container instance
+    /* constructor receives container instance */
     public function __construct(ContainerInterface $container)
     {
 
@@ -102,7 +102,6 @@ class File {
         $parsedBody = $request->getParsedBody();
         $newfolder = $parsedBody["file-manager-folder-name"];
         $currentDirectory = $parsedBody["current-directory"];
-        //var_dump($parsedBody);
         
         /* pathway */
         $fileDirectory = realpath(dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . self::FILE_DIRECTORY);

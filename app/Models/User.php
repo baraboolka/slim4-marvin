@@ -17,8 +17,6 @@ class User extends Basic {
      */    
     public function checkAccess(string $value): bool {
 
-        //$userTempHash = $_SESSION['user_temp_hash'];
-
 		$sql = "SELECT * FROM " . $this->tableName . " WHERE temp_hash = ? ";
 
 		$query = $this->pdo->prepare($sql);

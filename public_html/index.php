@@ -75,48 +75,8 @@ $container->set(Mailer::class, function () {
 
 });
 
-
-
-
-
-
-
-/* set middleware for user access checking */
-/*
-$middlewareCheckUserAccess = function (Request $request, RequestHandler $handler) use ($container) {
-
-    $response = $handler->handle($request);
-
-    if( isset($_SESSION['user_temp_hash']) ){
-        $user = new \Controllers\User($container);
-        $checkAccess = $user->checkAccess();
-
-        if( $checkAccess ){
-
-            return $response;
-
-        }
-    }
-
-    return $response->withHeader('Location', '/login')->withStatus(302);;
-
-};
-
-...
-
-$app->group('/admin', function (RouteCollectorProxy $group) {
-
-    $group->get('', function (Request $request, Response $response, $args) {
-
-    });    
-
-    $group->get('/page', function (Request $request, Response $response, $args) {
-
-    });
-
-})->add($middlewareCheckUserAccess);
-*/
 /* add custom containers */
+/*
 $container->set('testContainer', function(){
 
     $settings = [1,2,3];
@@ -137,27 +97,12 @@ $container->set('testContainer3', function(){
     return $settings;
 
 });
-
-
-
-
-
-
-
-
+*/
 
 /* controllers & routing */
 
 /* main page */
 $app->get('/', function (Request $request, Response $response, $args) {
-    
-    /* csrf protection */
-    //$csrfProtection = $this->get('csrf');
-    //$csrf = array();
-    //$csrf["nameKey"] = $csrfProtection->getTokenNameKey();
-    //$csrf["valueKey"] = $csrfProtection->getTokenValueKey();
-    //$csrf["name"] = $request->getAttribute($csrf["nameKey"]);
-    //$csrf["value"] = $request->getAttribute($csrf["valueKey"]); 
 
     /* page menu */
     $page = new \Models\Page($this->get("pdo"));
@@ -165,18 +110,21 @@ $app->get('/', function (Request $request, Response $response, $args) {
 
     /* gallery menu */
     $gallery = new \Models\Gallery($this->get("pdo"));
-    $galleryTree =  $gallery->getFamilyTree();    
+    $galleryTree =  $gallery->getFamilyTree();   
+    
+    /* seo */
+    $seo = array();
+    $seo["seo_title"] = 'Free Marwin based on slim 4';
+    $seo["seo_keywords"] = 'Free Marwin based on slim 4';
+    $seo["seo_description"] = 'Free Marwin based on slim 4';
 
     /* view */
     $view = Twig::fromRequest($request);
     
     return $view->render($response, '/main.html.twig', [
-        //'name' => 'John',
-        //'userTempHash' => $_SESSION["user_temp_hash"],
-
-        //'csrf' => $csrf,
         'pageTree' => $pageTree,
         'galleryTree' => $galleryTree,
+        'seo' => $seo,
     ]);
 
 });
@@ -210,7 +158,13 @@ $app->get('/search', function (Request $request, Response $response) {
         /* gallery list */
         $gallerySearch =  $gallery->search($word); 
 
-    } 
+    }
+
+    /* seo */
+    $seo = array();
+    $seo["seo_title"] = 'Searching...';
+    $seo["seo_keywords"] = 'Searching...';
+    $seo["seo_description"] = 'Searching...';
     
     /* view */
     $view = Twig::fromRequest($request);
@@ -222,6 +176,7 @@ $app->get('/search', function (Request $request, Response $response) {
         'pages' => $pageSearch,
         'galleries' => $gallerySearch,
         'word' => $word,
+        'seo' => $seo,
     ]);
 
 });
@@ -251,11 +206,11 @@ $app->post('/send-mail-form', function (Request $request, Response $response) {
 
     $params = (array)$request->getParsedBody();
 
-    $to = "baraboolka1@gmail.com";
+    $to = "some_email@gmail.com";/* !!! */
     $subject = "New message";
 
 
-    //simple validation
+    /* simple field validation */
     if( !empty($params["author"]) ){
 
         $author = htmlspecialchars($params["author"], ENT_QUOTES, 'UTF-8');
@@ -272,11 +227,11 @@ $app->post('/send-mail-form', function (Request $request, Response $response) {
 
     try{
 
-        //call the factory as a function thanks to __invoke
+        /* call the factory as a function thanks to __invoke */
         $mailer = $mailerFactory([
             "to"  => $to,
             "subject" => $subject,
-            "text" => $author . ": " . $text,            
+            "text" => "Author: " . $author . "; message: " . $text,            
         ]);
 
         $mailer->send();
@@ -380,30 +335,6 @@ $app->group('/admin', function (RouteCollectorProxy $group) {
 
 })->add(new \Middleware\CheckAccess($container));
 
-/*
-$app->get('/sethash[/{hash}]', function (Request $request, Response $response, $args) {
-
-    $userTempHash = $args['hash'];
-
-    $_SESSION["user_temp_hash"] = $userTempHash;
-
-    $response->getBody()->write("sethash");
-
-    return $response;
-
-});
-$app->get('/drophash', function (Request $request, Response $response, $args) {
-
-    unset($_SESSION["user_temp_hash"]);
-
-    $response->getBody()->write("drophash");
-
-    return $response;
-
-});
-*/
-
-
 /* route for the not found 404 page */
 $app->any('/404', function(Request $request, Response $response) {
 
@@ -416,9 +347,11 @@ $app->any('/404', function(Request $request, Response $response) {
 /* catch all other urls and redirect them to /404 */
 $app->any('{route:.*}', function(Request $request, Response $response) {
 
-    //$view = Twig::fromRequest($request);
+    /*
+    $view = Twig::fromRequest($request);
 
-    //return $view->render($response, '404.html.twig');
+    return $view->render($response, '404.html.twig');
+    */
 
     return $response
         ->withHeader('Location', '/404')

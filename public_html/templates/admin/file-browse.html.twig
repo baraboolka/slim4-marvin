@@ -1,93 +1,111 @@
-<!-- main csrf tokens -->
-<input type="hidden" id="csrf-dynamic-name" name="{{ csrf.nameKey }}" value="{{ csrf.name }}">
-<input type="hidden" id="csrf-dynamic-value" name="{{ csrf.valueKey }}" value="{{ csrf.value }}">
+<div class="file-manager-panel">
 
-<h3>Pathway</h3>
+    <!-- main csrf tokens -->
+    <input type="hidden" id="csrf-dynamic-name" name="{{ csrf.nameKey }}" value="{{ csrf.name }}">
+    <input type="hidden" id="csrf-dynamic-value" name="{{ csrf.valueKey }}" value="{{ csrf.value }}">
 
-<div id="file-manager-update" onclick="reloadFileManager()" data-file-manager-current-directory="{{ currentDirectory }}">update button</div>
+    <h2>
+        <span>Pathway</span>
+        <div id="file-manager-update" onclick="reloadFileManager()" data-file-manager-current-directory="{{ currentDirectory }}"><!-- update button --></div>
+    </h2>
 
-<div class="file-manager-pathway">
 
-    <span onclick="reloadFileManager()" data-file-manager-current-directory="">files</span>
-    <span class="file-manager-pathway-separator">/</span>
 
-    {% if pathway %}
+    <div class="file-manager-pathway">
 
-        {% for crumb in pathway %}
+        <span onclick="reloadFileManager()" data-file-manager-current-directory="">files</span>
+        <span class="file-manager-pathway-separator">/</span>
 
-            <span onclick="reloadFileManager()" data-file-manager-current-directory="{{ crumb.alias }}">{{ crumb.title }}</span>
-            <span class="file-manager-pathway-separator">/</span>
+        {% if pathway %}
 
-        {% endfor %}
+            {% for crumb in pathway %}
 
-{% endif %}
+                <span onclick="reloadFileManager()" data-file-manager-current-directory="{{ crumb.alias }}">{{ crumb.title }}</span>
+                <span class="file-manager-pathway-separator">/</span>
 
-</div><!-- file-manager-pathway -->
+            {% endfor %}
 
-<hr>
+    {% endif %}
 
-{% if folders %}
-    <h3>Folders</h3>
+    </div><!-- file-manager-pathway -->
 
-    <div class="list">
+    <!-- <hr> -->
 
-        {% for folder in folders %}
+    {% if folders %}
+        <h3>Folders here: </h3>
 
-            <div class="list-row">
-                <div class="list-col list-col-directory" onclick="reloadFileManager()" data-file-manager-current-directory="{{ folder.alias }}">[{{ folder.title }}]</div>
-                <div class="list-col list-delete">
-                    <span href="/admin/file/delete-folder">
-                        <img src="/images/list-delete-3x.png" alt="" onclick="deleteFolderViaFileManager()" data-file-manager-current-directory="{{ currentDirectory }}" data-file-manager-deleted-folder="{{ folder.title }}">
-                    </span>             
+        <div class="list">
+
+            {% for folder in folders %}
+
+                <div class="list-row">
+                    <div class="list-col list-col-directory" onclick="reloadFileManager()" data-file-manager-current-directory="{{ folder.alias }}">{{ folder.title }}</div>
+                    <div class="list-col list-col-delete"  onclick="deleteFolderViaFileManager()" data-file-manager-current-directory="{{ currentDirectory }}" data-file-manager-deleted-folder="{{ folder.title }}">
+                        <!--<span href="/admin/file/delete-folder">
+                            <img src="/images/list-delete-3x.png" alt="">
+                        </span>-->
+                    </div>
                 </div>
-            </div>
 
-        {% endfor %}
+            {% endfor %}
 
+        </div>
+
+    {% endif %}
+
+    <!-- <hr> -->
+
+    {% if files %}
+        <h3>Files here:</h3>
+
+        <div class="list">
+
+            {% for file in files %}
+
+                <div class="list-row">
+                    <div class="list-col list-col-file">
+                        <a target="_block" href="/files{{ file.alias }}">/files{{ file.alias }}</a>
+                    </div>
+                    
+                    <div class="list-col list-col-delete" onclick="deleteFileViaFileManager()" data-file-manager-current-directory="{{ currentDirectory }}" data-file-manager-deleted-file="{{ file.title }}">
+                        <!--<span href="/admin/file/delete-file">
+                            <img src="/images/list-delete-3x.png" alt="">
+                        </span>-->             
+                    </div>
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+    <!-- <hr> -->
+
+</div><!-- file-manager-panel -->
+
+<div class="file-manager-panel">
+
+    <!-- <hr> -->
+
+    <div class="file-manager-alert">{{ message }}</div>
+
+    <h2>Create folder</h2>
+
+    <div class="file-manager-block file-manager-block-1">
+        <div id="file-manager-folder-button" onclick="createFolderViaFileManager()" data-file-manager-current-directory="{{ currentDirectory }}" title="creater folder button"><!-- Creater folder button --></div>
+        <input id="file-manager-folder-name" name="file-manager-folder-name" type="text">
     </div>
 
-{% endif %}
+    <!-- <hr> -->
 
-<hr>
+    <h2>Load file</h2>
 
-{% if files %}
-    <h3>Files</h3>
-
-    <div class="list">
-
-        {% for file in files %}
-
-            <div class="list-row">
-                <div class="list-col list-col-file">
-                    <a target="_block" href="/files{{ file.alias }}">/files{{ file.alias }}</a>
-                </div>
-                
-                <div class="list-col list-delete">
-                    <span href="/admin/file/delete-file">
-                        <img src="/images/list-delete-3x.png" alt="" onclick="deleteFileViaFileManager()" data-file-manager-current-directory="{{ currentDirectory }}" data-file-manager-deleted-file="{{ file.title }}">
-                    </span>             
-                </div>
-            </div>
-
-        {% endfor %}
-
+    <div class="file-manager-block file-manager-block-2">
+        <div id="file-manager-input-file-button" onclick="loadFileViaFileManager()" data-file-manager-current-directory="{{ currentDirectory }}" title="Load file button"><!-- Load file button --></div>
+        <input id="file-manager-input-file" type="file">
     </div>
+    
+</div><!-- file-manager-panel -->
 
-{% endif %}
 
-<hr>
-
-<h3>create folder</h3>
-
-<input id="file-manager-folder-name" name="file-manager-folder-name" type="text">
-<div id="file-manager-folder-button" onclick="createFolderViaFileManager()" data-file-manager-current-directory="{{ currentDirectory }}">creater folder button</div>
-
-<hr>
-
-<h3>load file</h3>
-<input id="file-manager-input-file" type="file">
-<div id="file-manager-input-file-button" onclick="loadFileViaFileManager()" data-file-manager-current-directory="{{ currentDirectory }}">Load file button</div>
-
-<hr>
-
-<div class="file-manager-alert">{{ message }}</div>

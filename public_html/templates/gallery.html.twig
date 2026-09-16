@@ -1,31 +1,28 @@
 {% extends "index.html.twig" %}
 
 {% block content %}
-	<h1>gallery, block what extends index</h1>
-    
+
     <h1>{{ gallery.title }}</h1>
 
-    <h2>text</h2>
-
-    <div class="block">
+    <div class="content-block">
        {{ gallery.text | raw }}
     </div>
 
-   <h2>text_editor</h2>
-
-    <div class="block">
+    <div class="content-block content-block-editor">
         {{ gallery.text_editor | raw }}
     </div>    
 
-    <div class="block">
+    <div class="content-block content-block-images">
+
         {% if images %} 
+
             <h3>Images</h3>
             <ul>
 
                 {% for image in images %}
 
                     <li>
-                        <a href="/galleries/{{ image.file }}" class="fancybox">
+                        <a href="/galleries/{{ image.file }}" data-fancybox data-caption="{{ image.title }}">
                             <img src="/galleries/{{ image.file }}" alt="">
                         </a>
                     </li>
@@ -33,11 +30,15 @@
                 {% endfor %}
 
             </ul>
-        {% endif %}    
+
+        {% endif %}  
+
     </div>
 
-    <div class="block">
+    <div class="content-block content-block-subs">
+
         {% if children %}
+
             <h3>Sub-elements</h3>
             <ul>
 
@@ -48,7 +49,9 @@
             {% endfor %}
 
             </ul>
+
         {% endif %}
+        
     </div>
 
 {% endblock %}

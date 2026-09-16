@@ -15,7 +15,7 @@ class Gallery {
     private $container;
     const GALLERY_DIRECTORY = "public_html" . DIRECTORY_SEPARATOR . "galleries"; 
 
-    //constructor receives container instance
+    /* constructor receives container instance */
     public function __construct(ContainerInterface $container)
     {
 
@@ -59,6 +59,13 @@ class Gallery {
 
         }
 
+        /* seo */
+        $seo = $gallery->getSeoById((int)$galleryInfo["id"]);
+
+        /* page menu */
+        $page = new \Models\Page($this->container->get("pdo"));
+        $pageTree =  $page->getFamilyTree();        
+
         /* view */
         $view = Twig::fromRequest($request);
         
@@ -66,28 +73,13 @@ class Gallery {
             'csrf' => $csrf,
             'gallery' => $galleryInfo,
             'galleryTree' => $galleryTree,
+            'pageTree' => $pageTree,
             'images' => $galleryImages,
             'children' => $galleryChildren,
+            'seo' => $seo,
         ]);
 
     }
-
-    /*public function hello(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
-        // your code to access items in the container... $this->container->get('');
-
-        print_r($this->container->get("testContainer"));
-        print_r($this->container->get("testContainer2"));
-
-        $page = new \Models\Page($this->container->get("pdo"));
-        var_dump($page->getAll());
-        var_dump($page->getById(12));
-        var_dump($page->getByAlias('page 1 url'));
-        var_dump($page->getByAlias('ddpage 1 url'));
-
-        $response->getBody()->write("Hello from Controllers/Test->hello");
-
-	    return $response;
-   }*/
 
     public function list(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
 
@@ -295,7 +287,6 @@ class Gallery {
                 $imageId = (int)$value;
 
                 $deleteImage = $gallery->deleteImage($imageId);
-                //echo $deleteImage;
 
                 $imageDirectory = realpath(dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . self::GALLERY_DIRECTORY);
                 
@@ -349,7 +340,7 @@ class Gallery {
         $galleryHasChildren = $gallery->getByParent((int)$galleryInfo["id"]);
 
         if( !empty($galleryHasChildren) ){
-            //gallery has children
+            /* gallery has sub-galleries */
             \Controllers\Utility::putMessageIntoStash("gallery has sub-galleries. Please, delete them first");
 
             return $response->withHeader('Location', '/admin/gallery')->withStatus(302);;             
@@ -359,7 +350,7 @@ class Gallery {
         $galleryHasImages = $gallery->getImages($galleryId);
 
         if( !empty($galleryHasImages) ){
-            //gallery has images
+            /* gallery has images */
             \Controllers\Utility::putMessageIntoStash("gallery is not empty. Please, delete images first");
 
             return $response->withHeader('Location', '/admin/gallery')->withStatus(302);; 

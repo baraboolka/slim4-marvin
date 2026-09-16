@@ -14,7 +14,7 @@ class User {
 
     private $container;
 
-    //constructor receives container instance
+    /* constructor receives container instance */
     public function __construct(ContainerInterface $container)
     {
 
@@ -62,14 +62,12 @@ class User {
 
             $user = new \Models\User($this->container->get("pdo"));
             $authorization = $user->authorization($params);
-            //echo $authorization;exit;
 
             if( $authorization ){
 
                 /* good authorization */
-                //$this->updateHash() (записываем в базу у этого юзера новый хеш и обновляем сессионную перем)
                 $newHash = $user->updateHash($authorization);
-                //обновляем сессионную переменную... 
+                /* update session variable */
                 $_SESSION['user_temp_hash'] = $newHash;
 
                 return $response->withHeader('Location', '/admin')->withStatus(302);; 
@@ -189,7 +187,6 @@ class User {
 
         }    
 
-        //выводим сообщение с новыми логином и паролем и айди
         return $response->withHeader('Location', '/admin/user')->withStatus(302);;  
             
     } 

@@ -5,10 +5,6 @@ declare(strict_types = 1);
 namespace Controllers;
 
 class Utility {
-
-    /*public static function test(): string {
-        return "test message from Controllers/Utility";
-    }*/
     
     /**
      * Generate random string with length
@@ -84,15 +80,7 @@ class Utility {
      * @param   string  $text   Text with the symbols
      * 
      * @return  string          Cleared text
-     */  
-	/*
-    /**
-     * Clear special symbols from the string|alias
-     * 
-     * @param   string  $text   Text with the symbols
-     * 
-     * @return  string          Cleared text
-     */  
+     */   
 	/*	  
     public static function clearSpecialSymbols(string $text): string {
 		
