@@ -33,14 +33,18 @@ class File {
         $csrf["name"] = $request->getAttribute($csrf["nameKey"]);
         $csrf["value"] = $request->getAttribute($csrf["valueKey"]); 
 
-        /* pathway */
-        $fileDirectory = realpath(dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . self::FILE_DIRECTORY);
-
-        if( !empty($args["directory"]) ){
-            $currentDirectory = "/" . $args["directory"];
+        /* GET params */
+        $params = $request->getQueryParams();
+     
+        if( !empty($params["directory"]) ){
+            //$currentDirectory = "/" . $params["directory"];
+            $currentDirectory = $params["directory"];
         }else{
             $currentDirectory = "";
         }
+
+        /* pathway */
+        $fileDirectory = realpath(dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . self::FILE_DIRECTORY);
         
         $i = 0;
 

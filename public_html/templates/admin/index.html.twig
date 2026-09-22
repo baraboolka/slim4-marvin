@@ -40,12 +40,9 @@
     <script>
         function showFileManager(currentDirectory){
 
-            //console.log(currentDirectory);
-            //console.log(encodeURIComponent(currentDirectory));
-
             let xhr = new XMLHttpRequest();
 
-            xhr.open("GET", "/admin/file/browse" + encodeURIComponent(currentDirectory), true);
+            xhr.open("GET", "/admin/file/browse?directory=" + encodeURIComponent(currentDirectory), true);
 
             xhr.onload = function(){
                 if( xhr.status >= 200 && xhr.status < 300 ){
@@ -79,6 +76,7 @@
 
         function reloadFileManager(){
 
+            console.log(event.target.dataset.fileManagerCurrentDirectory);
             showFileManager(event.target.dataset.fileManagerCurrentDirectory);
 
         }

@@ -307,7 +307,8 @@ $app->group('/admin', function (RouteCollectorProxy $group) {
 
     /* admin/file */
     $group->group('/file', function (RouteCollectorProxy $group) {
-        $group->get('/browse[/{directory:.*}]', Controllers\File::class . ':browse');
+        
+        $group->get('/browse', Controllers\File::class . ':browse');
 
         $group->post('/create-folder', Controllers\File::class . ':createFolder');
 
