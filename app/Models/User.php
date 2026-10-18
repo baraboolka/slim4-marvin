@@ -216,4 +216,19 @@ class User extends Basic {
         return false;
 
     }
+
+    /**
+     * Get SEO data by id
+     * 
+     * @param   int         $value  Item id      
+     * 
+     * @return  array|null          Array of the seo data or null
+     */   
+    public function getSeoById(int $value): ?array {
+
+		/* parent function not used for this class */
+
+        return false;
+
+    }    
 }    
